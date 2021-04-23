@@ -28,10 +28,10 @@ class AStar():
             return 14*vy + 10*(vx - vy)
 
     def g_cost(self, node, checknode):  #calculate g_Cost of Node ## distance from start node
-        x = node.x - checknode.x
-        y = node.y - checknode.y
+        x = abs(checknode.x - node.x)
+        y = abs(checknode.y - node.y)
         sum = x + y
-        if sum == 1 or sum == -1:
+        if sum == 1:
             return node.g_cost + 10
         else:
             return node.g_cost + 14
@@ -49,7 +49,7 @@ class AStar():
 
     def AStar_loop(self):
         while True:
-            time.sleep(0.08)
+            time.sleep(0.04)
             currf = 1000000000
             currh = 1000000000
             currN = None
@@ -71,7 +71,7 @@ class AStar():
                 if not neighbour.traversable or neighbour in self.closedSet:
                     continue
                 #need to calculate g_cost with new node to check if new g_cost is lower
-                new_g_cost = self.g_cost(neighbour, self.currentNode)
+                new_g_cost = self.g_cost(self.currentNode, neighbour)
                 if new_g_cost < neighbour.g_cost or neighbour not in self.openSet:
                     neighbour.g_cost = new_g_cost
                     neighbour.f_cost = self.f_cost(neighbour)
